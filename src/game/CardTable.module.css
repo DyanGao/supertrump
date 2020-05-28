@@ -1,0 +1,24 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.td {
+  padding: 5px 0;
+}
+
+.activeRow {
+  background-color: yellow;
+}
+
+.tr:hover {
+  background-color: lightblue
+}
+
+.tr-light:nth-child(2n) {
+  background-color: #ddd;
+}
+
+.tr-dark:nth-child(2n) {
+  background-color: #666;
+}
