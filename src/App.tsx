@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import "./App.css";
-import Admin from "./admin/components/Admin";
+import Admin from "./admin/components/Admin/Admin";
 import {
   BrowserRouter as Router,
   Route,

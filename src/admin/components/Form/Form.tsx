@@ -3,7 +3,7 @@ import Animal from "../../../shared/models/Animal";
 //import useCardAdmin from "./useCardAdmin";
 import { Form, Error, Field, TextField } from "./Form.styles";
 import { Formik, ErrorMessage, FieldProps } from "formik";
-import validationSchema from "../../validationSchema";
+import validationSchema from "./validationSchema";
 import {
   Dialog,
   DialogTitle,
@@ -14,22 +14,17 @@ import {
 
 interface Props {
   onSubmit: (animal: Animal) => void;
-  animal?: Animal;
+  getAnimal: (id?: number) => Animal;
   id: number;
-  open: boolean;
+  open?: boolean | undefined;
   onClose: () => void;
 }
 
-function From({
-  onSubmit,
-  animal = new Animal("", "", "", "", "", "", ""),
-  id,
-  open,
-  onClose,
-}: Props) {
+function From({ onSubmit, getAnimal, id, onClose }: Props) {
+  let animal = getAnimal(id);
   return (
     <Dialog
-      open={open}
+      open={true}
       onClose={onClose}
       aria-labelledby="form-dialog-title"
       aria-describedby="form-dialog-description"

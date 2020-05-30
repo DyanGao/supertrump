@@ -1,13 +1,14 @@
 import { connect } from "react-redux";
-import From from "./Form";
+import Form from "./Form";
 import { AppState } from "./../../../reducers/rootReducer";
 import { getCard } from "../../selectors/admin.selectors";
-import { Dispatch } from "redux";
 import Animal from "../../../shared/models/Animal";
 import {
   updateCardAction,
   createCardAction,
 } from "../../actions/admin.actions";
+import { ThunkDispatch } from "redux-thunk";
+import { Action } from "redux";
 
 interface Props {
   onSubmit: () => void;
@@ -19,7 +20,10 @@ function mapStateToProps(state: AppState) {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch, { onSubmit }: Props) {
+function mapDispatchToProps(
+  dispatch: ThunkDispatch<AppState, unknown, Action<any>>,
+  { onSubmit }: Props
+) {
   return {
     onSubmit(animal: Animal) {
       if (animal.id) {
@@ -32,4 +36,4 @@ function mapDispatchToProps(dispatch: Dispatch, { onSubmit }: Props) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(From);
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

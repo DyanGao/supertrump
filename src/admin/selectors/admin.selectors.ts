@@ -10,6 +10,10 @@ export function onolyFavourites(state: AppState): boolean {
   return state.admin.onlyFavourites;
 }
 
+export function getError(state: AppState): string {
+  return state.admin.error;
+}
+
 export function getCard(state: AppState): (id?: number) => Animal {
   return (id?: number): Animal => {
     const animal = getCards(state).find((card) => card.id === id);

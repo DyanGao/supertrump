@@ -1,14 +1,12 @@
 import React, { useState, ChangeEvent } from "react";
 import {
   Table,
-  Paper,
   TableHead,
   TableRow,
   TableCell,
   TableBody,
   TextField,
   TableSortLabel,
-  Grid,
   Hidden,
 } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
@@ -17,11 +15,12 @@ import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import Animal from "../../../shared/models/Animal";
 import ConfirmDialog from "../../ConfirmDialog";
-import { Fab } from "./List.styles";
+import { Fab, Grid, Paper } from "./List.styles";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { getFavourites } from "../../selectors/admin.selectors";
-import { deleteCardAction } from "../../actions/admin.actions";
+//import { useDispatch } from "react-redux";
+//import { getFavourites } from "../../selectors/admin.selectors";
+//import { deleteCardAction } from "../../actions/admin.actions";
+import useList from "./useList";
 
 /* interface Props {
   animals: Animal[];
@@ -30,8 +29,9 @@ import { deleteCardAction } from "../../actions/admin.actions";
 } */
 
 function List({ match }: RouteComponentProps) {
-  const dispatch = useDispatch();
-  const onDelete = (id: number) => dispatch(deleteCardAction(id));
+  const [animals, onDelete] = useList();
+  //const dispatch = useDispatch();
+  //const onDelete = (id: number) => dispatch(deleteCardAction(id));
   const [deleteDialog, setDeleteDialog] = useState<{
     open: boolean;
     id: number;
@@ -60,12 +60,12 @@ function List({ match }: RouteComponentProps) {
   };
 
   return (
-    <Grid container>
+    <Grid container={true} mt={9}>
       <Hidden smDown>
         <Grid item md={1} />
       </Hidden>
       <Grid item xs={12} md={10}>
-        <Paper>
+        <Paper padding={1}>
           <TextField
             label="Liste filtern"
             value={filter}
@@ -105,7 +105,7 @@ function List({ match }: RouteComponentProps) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {useSelector(getFavourites)
+              {animals
                 .filter((animal) =>
                   animal.name.toLowerCase().includes(filter.toLowerCase())
                 )

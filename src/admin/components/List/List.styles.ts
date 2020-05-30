@@ -1,4 +1,9 @@
-import { Fab as MatFab } from "@material-ui/core";
+import {
+  Fab as MatFab,
+  Paper as MatPaper,
+  Grid as MatGrid,
+} from "@material-ui/core";
+import { compose, spacing, css } from "@material-ui/system";
 import styled from "styled-components";
 
 export const Fab = styled(MatFab)`
@@ -10,3 +15,11 @@ export const Fab = styled(MatFab)`
     transform: translateX(-50%);
   }
 `;
+
+export const Paper = styled(MatPaper)`
+  ${css(compose(spacing))}
+` as any;
+
+export const Grid = styled(MatGrid)`
+  ${css(spacing)}
+` as any;
