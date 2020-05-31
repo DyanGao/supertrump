@@ -1,19 +1,18 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import "./App.css";
 import Admin from "./admin/components/Admin/Admin";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Game from "./game/Game";
-import Login from "./login/Login";
+import Login from "./login/components/Login";
 import Nav from "./Nav";
 import NotFound from "./NotFound";
 import { Provider } from "react-redux";
+import { isLoggedIn } from "./login/selectors/login.selectors";
+import { ConnectedRouter } from "connected-react-router";
+import { history } from "./store/configureStore.dev";
 
 let configureStore: Function;
+
 if (process.env.NODE_ENV === "development") {
   configureStore = require("./store/configureStore.dev").configureStore;
 } else {
@@ -23,34 +22,38 @@ if (process.env.NODE_ENV === "development") {
 const store = configureStore();
 
 export default function App() {
-  const [loggedIn, setLoggedIn] = useState(true);
+  /* const [loggedIn, setLoggedIn] = useState(true);
   const handleLogin = useCallback(
     (username, password) =>
       setLoggedIn(username === "user" && password === "password"),
     []
   );
 
-  const handleLogout = useCallback(() => setLoggedIn(false), []);
+  const handleLogout = useCallback(() => setLoggedIn(false), []); */
 
   return (
     <Provider store={store}>
-      <Router>
-        {loggedIn && <Nav onLogout={handleLogout} />}
+      <ConnectedRouter history={history}>
         <Switch>
           <Route
             path="/"
             exact
             render={() => {
-              if (loggedIn) {
+              if (isLoggedIn(store.getState())) {
                 return <Redirect to="/game" />;
               }
-              return <Login onLogin={handleLogin} error={""} />;
+              return <Login />;
             }}
           />
           <Route path="/admin">
             {() => {
-              if (loggedIn) {
-                return <Admin />;
+              if (isLoggedIn(store.getState())) {
+                return (
+                  <>
+                    <Nav />
+                    <Admin />
+                  </>
+                );
               }
               return <Redirect to="/" />;
             }}
@@ -58,15 +61,20 @@ export default function App() {
           <Route
             path="/game"
             render={() => {
-              if (loggedIn) {
-                return <Game title="Supertrumpf" />;
+              if (isLoggedIn(store.getState())) {
+                return (
+                  <>
+                    <Nav />
+                    <Game title="Supertrumpf" />
+                  </>
+                );
               }
               return <Redirect to="/" />;
             }}
           />
           <Route path="/" component={NotFound} />
         </Switch>
-      </Router>
+      </ConnectedRouter>
     </Provider>
   );
   /* (

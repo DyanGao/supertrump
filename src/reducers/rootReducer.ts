@@ -1,8 +1,14 @@
 import { combineReducers } from "redux";
+import { connectRouter } from "connected-react-router";
 import adminReducer from "../admin/reducers/admin.reducer";
+import loginReducer from "../login/reducers/login.reducer";
+import { History } from "history";
 
-const rootReducer = combineReducers({ admin: adminReducer });
+export default (history: History) =>
+  combineReducers({
+    router: connectRouter(history),
+    admin: adminReducer,
+    login: loginReducer,
+  });
 
-export type AppState = ReturnType<typeof rootReducer>;
-
-export default rootReducer;
+export type AppState = ReturnType<ReturnType<typeof combineReducers>>;

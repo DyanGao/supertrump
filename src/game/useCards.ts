@@ -3,6 +3,9 @@ import update from "immutability-helper";
 import axios from "axios";
 import Animal from "../shared/models/Animal";
 import selectRandomProperty from "./selectRandomProperty";
+import { useSelector, useDispatch } from "react-redux";
+import { getToken } from "../login/selectors/login.selectors";
+import { unauthorizedErrorAction } from "../login/actions/login.actions";
 
 //import DealCards from "./withCards";
 /* interface Card {
@@ -32,12 +35,22 @@ function useCards(): [State, (property: keyof Animal) => void] {
     computer: [],
   });
 
+  const token = useSelector(getToken);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get("http://localhost:3001/card");
-      dealCards(data);
+      try {
+        const { data } = await axios.get("http://localhost:3001/card", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        dealCards(data);
+      } catch (e) {
+        dispatch(unauthorizedErrorAction());
+      }
     };
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

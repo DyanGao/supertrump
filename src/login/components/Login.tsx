@@ -7,13 +7,19 @@ import React, {
 } from "react";
 import update from "immutability-helper";
 import "./login.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAction } from "../actions/login.actions";
+import { hasLoginError } from "../selectors/login.selectors";
 
-interface Props {
+/* interface Props {
   onLogin: (username: string, password: string) => void;
   error: string;
-}
+} */
 
-function Login({ error, onLogin }: Props) {
+function Login() {
+  const dispatch = useDispatch();
+  const error = useSelector(hasLoginError);
+
   const username = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
 
@@ -28,7 +34,12 @@ function Login({ error, onLogin }: Props) {
     let error = "Bitte Benutzernamen und Passwort angeben";
     if (username.current!.value && username.current!.value) {
       error = "";
-      onLogin(username.current!.value, password.current!.value);
+      dispatch(
+        loginAction({
+          username: username.current!.value,
+          password: password.current!.value,
+        })
+      );
     }
     setLocalError((prevState) => update(prevState, { $set: error }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,9 +47,10 @@ function Login({ error, onLogin }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="login">
-      {(error !== "" || localError !== "") && (
+      {(error || localError !== "") && (
         <div className="error">
-          {error} {localError}
+          {error && "Es ist ein Fehler aufgetreten"}
+          {localError}
         </div>
       )}
       <div>

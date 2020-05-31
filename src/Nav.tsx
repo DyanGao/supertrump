@@ -1,22 +1,20 @@
 import React, { useCallback } from "react";
-import { withRouter, RouteComponentProps } from "react-router";
+import { withRouter } from "react-router";
 import { AppBar, IconButton, Menu, MenuItem } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ExitIcon from "@material-ui/icons/ExitToApp";
 import { Link } from "react-router-dom";
 import { Toolbar } from "./Nav.styles";
+import { useDispatch } from "react-redux";
+import { logoutAction } from "./login/actions/login.actions";
 
-interface Props {
-  onLogout: () => void;
-}
-
-function Nav({ history, onLogout }: RouteComponentProps & Props) {
+function Nav() {
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const handleLogout = useCallback(() => {
-    onLogout();
-    history.push("/");
+    dispatch(logoutAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onLogout]);
+  }, []);
 
   const handleMenuOpen = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) =>
