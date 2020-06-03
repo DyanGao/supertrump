@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Animal from "../shared/models/Animal";
 import { Td, Tr } from "./CardTable.styles";
+import { FormattedNumber, FormattedMessage } from "react-intl";
 
 interface Props {
   animal: Animal;
@@ -33,9 +34,14 @@ function CardTable({
                 onSelectProperty && onSelectProperty(property as keyof Animal);
               }}
             >
-              <Td>{animalProperty.label}</Td>
               <Td>
-                {propertyValue}&nbsp;{animalProperty.unit}
+                <FormattedMessage id={`card.${property}`} />
+              </Td>
+              <Td>
+                <FormattedNumber
+                  value={parseFloat(propertyValue!.toString())}
+                />
+                &nbsp;{animalProperty.unit}
               </Td>
             </Tr>
           );

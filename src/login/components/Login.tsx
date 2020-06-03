@@ -10,6 +10,7 @@ import "./login.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../actions/login.actions";
 import { hasLoginError } from "../selectors/login.selectors";
+import { FormattedMessage } from "react-intl";
 
 /* interface Props {
   onLogin: (username: string, password: string) => void;
@@ -49,19 +50,25 @@ function Login() {
     <form onSubmit={handleSubmit} className="login">
       {(error || localError !== "") && (
         <div className="error">
-          {error && "Es ist ein Fehler aufgetreten"}
+          {error && <FormattedMessage id="login.error" />}
           {localError}
         </div>
       )}
       <div>
-        <label htmlFor="">Benutzername:</label>
-        <input type="text" id="username" ref={username} />
+        <label htmlFor="">
+          <FormattedMessage id="login.username" />
+        </label>
+        <input type="text" id="username" ref={username!} />
       </div>
       <div>
-        <label htmlFor="">Passwort:</label>
+        <label htmlFor="">
+          <FormattedMessage id="login.password" />
+        </label>
         <input type="password" id="password" ref={password} />
       </div>
-      <button type="submit">anmelden</button>
+      <button type="submit">
+        <FormattedMessage id="login.login" />
+      </button>
     </form>
   );
 }

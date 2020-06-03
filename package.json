@@ -19,6 +19,8 @@
     "immutability-helper": "^3.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-intl": "^4.6.3",
+    "react-intl-redux": "^2.2.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
@@ -56,6 +58,7 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.10",
+    "@types/react-intl-redux": "^0.1.14",
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
     "@types/styled-components": "^5.1.0",

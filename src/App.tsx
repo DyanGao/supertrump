@@ -10,6 +10,22 @@ import { Provider } from "react-redux";
 import { isLoggedIn } from "./login/selectors/login.selectors";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "./store/configureStore.dev";
+import de from "./i18n/messages/DE-de.json";
+import en from "./i18n/messages/EN-en.json";
+import { IntlProvider } from "react-intl-redux";
+import { getLocale } from "./i18n/selectors/i18n.selectors";
+
+const localeMap = {
+  de: "DE-de",
+  "de-de": "DE-de",
+  en: "EN-us",
+  "en-us": "EN-us",
+};
+let browserLang = navigator.language.toLowerCase() as keyof typeof localeMap;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const locale = localeMap[browserLang] as keyof typeof messages;
+const messages = { "DE-de": de, "EN-us": en };
 
 let configureStore: Function;
 
@@ -21,60 +37,68 @@ if (process.env.NODE_ENV === "development") {
 
 const store = configureStore();
 
+browserLang = Object.keys(localeMap).includes(browserLang)
+  ? browserLang
+  : "de-de";
+
 export default function App() {
   /* const [loggedIn, setLoggedIn] = useState(true);
   const handleLogin = useCallback(
     (username, password) =>
       setLoggedIn(username === "user" && password === "password"),
     []
-  );
+  );*/
 
-  const handleLogout = useCallback(() => setLoggedIn(false), []); */
-
+  // const handleLogout = useCallback(() => setLoggedIn(false), []);
+  /*  const [locale, setLocale] = useState<keyof typeof messages>(
+    localeMap[browserLang] as keyof typeof messages
+  ); */
   return (
     <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <Switch>
-          <Route
-            path="/"
-            exact
-            render={() => {
-              if (isLoggedIn(store.getState())) {
-                return <Redirect to="/game" />;
-              }
-              return <Login />;
-            }}
-          />
-          <Route path="/admin">
-            {() => {
-              if (isLoggedIn(store.getState())) {
-                return (
-                  <>
-                    <Nav />
-                    <Admin />
-                  </>
-                );
-              }
-              return <Redirect to="/" />;
-            }}
-          </Route>
-          <Route
-            path="/game"
-            render={() => {
-              if (isLoggedIn(store.getState())) {
-                return (
-                  <>
-                    <Nav />
-                    <Game title="Supertrumpf" />
-                  </>
-                );
-              }
-              return <Redirect to="/" />;
-            }}
-          />
-          <Route path="/" component={NotFound} />
-        </Switch>
-      </ConnectedRouter>
+      <IntlProvider locale={getLocale(store.getState())}>
+        <ConnectedRouter history={history}>
+          <Switch>
+            <Route
+              path="/"
+              exact
+              render={() => {
+                if (isLoggedIn(store.getState())) {
+                  return <Redirect to="/game" />;
+                }
+                return <Login />;
+              }}
+            />
+            <Route path="/admin">
+              {() => {
+                if (isLoggedIn(store.getState())) {
+                  return (
+                    <>
+                      <Nav />
+                      <Admin />
+                    </>
+                  );
+                }
+                return <Redirect to="/" />;
+              }}
+            </Route>
+            <Route
+              path="/game"
+              render={() => {
+                if (isLoggedIn(store.getState())) {
+                  return (
+                    <>
+                      <Nav />
+                      <Game title="Supertrumpf" />
+                    </>
+                  );
+                }
+                return <Redirect to="/" />;
+              }}
+            />
+            <Route path="/" component={NotFound} />
+          </Switch>
+        </ConnectedRouter>
+      </IntlProvider>
     </Provider>
   );
   /* (

@@ -1,0 +1,16 @@
+{
+  "login.username": "Username:",
+  "login.password": "Password:",
+  "login.login": "login",
+  "login.error": "There was an error.",
+  "game.info": "{info}'s turn",
+  "game.yourTurn": "It's your turn",
+  "game.computerTurn": "Computer's turn.",
+  "card.size": "Size",
+  "card.weight": "Weight",
+  "card.age": "Age",
+  "card.offspring": "Offspring",
+  "card.speed": "Speed",
+  "admin.found.one": "Found one record.",
+  "admin.found.many": "Found {count} records."
+}

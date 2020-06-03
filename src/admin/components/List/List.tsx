@@ -15,12 +15,13 @@ import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import Animal from "../../../shared/models/Animal";
 import ConfirmDialog from "../../ConfirmDialog";
-import { Fab, Grid, Paper } from "./List.styles";
+import { Fab, Grid, Paper, Count } from "./List.styles";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 //import { useDispatch } from "react-redux";
 //import { getFavourites } from "../../selectors/admin.selectors";
 //import { deleteCardAction } from "../../actions/admin.actions";
 import useList from "./useList";
+import { useIntl, FormattedPlural } from "react-intl";
 
 /* interface Props {
   animals: Animal[];
@@ -59,6 +60,12 @@ function List({ match }: RouteComponentProps) {
     };
   };
 
+  const animalsToDisplay = animals.filter((animal) =>
+    animal.name.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  const intl = useIntl();
+
   return (
     <Grid container={true} mt={9}>
       <Hidden smDown>
@@ -76,6 +83,16 @@ function List({ match }: RouteComponentProps) {
           <Table>
             <TableHead>
               <TableRow>
+                <Count>
+                  <FormattedPlural
+                    value={animalsToDisplay.length}
+                    one={intl.formatMessage({ id: "admin.found.one" })}
+                    other={intl.formatMessage(
+                      { id: "admin.found.many" },
+                      { count: animalsToDisplay.length }
+                    )}
+                  />
+                </Count>
                 <TableCell>
                   <TableSortLabel
                     active={sort.orderBy === "name"}
@@ -105,10 +122,10 @@ function List({ match }: RouteComponentProps) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {animals
-                .filter((animal) =>
+              {animalsToDisplay
+                /* .filter((animal) =>
                   animal.name.toLowerCase().includes(filter.toLowerCase())
-                )
+                ) */
                 .sort((animalA: Animal, animalB: Animal) => {
                   let result = 0;
                   if (animalB[sort.orderBy]! < animalA[sort.orderBy]!) {

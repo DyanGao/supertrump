@@ -23,3 +23,9 @@ export const Paper = styled(MatPaper)`
 export const Grid = styled(MatGrid)`
   ${css(spacing)}
 ` as any;
+
+export const Count = styled.div`
+  margin-top: 8px;
+  font-size: 12px;
+  rgba(0,0,0,0.54);
+`;

@@ -1,0 +1,16 @@
+{
+  "login.username": "Benutzername:",
+  "login.password": "Passwort:",
+  "login.login": "Anmelden",
+  "login.error": "Es ist ein Fehler aufgetreten.",
+  "game.info": "{info} an der Reihe",
+  "game.yourTurn": "Du bist an der Reihe",
+  "game.computerTurn": "Der Computer ist an der Reihe.",
+  "card.size": "Größe",
+  "card.weight": "Gewicht",
+  "card.age": "Alter",
+  "card.offspring": "Nachkommen",
+  "card.speed": "Geschwindigkeit",
+  "admin.found.one": "Ein Datensatz gefunden.",
+  "admin.found.many": "{count} Datensätze gefunden."
+}
